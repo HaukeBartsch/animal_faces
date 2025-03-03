@@ -11,11 +11,16 @@ if [ -z "$conda_env" ]; then
     exit -1
 fi
 
+# Create empty file with "touch /data/bla.jpg"
 cmd="$@"
 echo "run now: $cmd"
 eval $cmd
 
-# add the imagemagick commands here to convert the square image into the logo format
-# magick convert input.jpg -gravity center ( -size 480x480 xc:black -fill white -draw "circle 240 240 240 0" -alpha copy ) -compose copyopacity -composite output.png
+#
+# The above call should create a jpg image for each empty jpg file. We will look for all that do not have a png yet.
+for u in `ls /data/*.jpg`; do
+    echo "Try to create a circular cutout for ${u}."
+    magick "${u}" -gravity center \( \( "${u}" -fill black -draw "rectangle 0,0 %[fx:w],%[fx:h]" \) xc:black -fill white -draw "circle %[fx:w/2] %[fx:h/2] %[fx:w/2] 0" -alpha copy -composite \) -compose copyopacity -composite "${u##*.}.png"
+done
 
 echo "$(date): processing done"

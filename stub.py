@@ -8,7 +8,7 @@ from diffusers import DiffusionPipeline
 
 
 if len(sys.argv) != 2:
-    print("Error: wrong number of arguments (%d), should be 1 (image folder with pngs)." % (len(sys.argv)-1))
+    print("Error: wrong number of arguments (%d), should be 1 (image folder with jpgs)." % (len(sys.argv)-1))
     sys.exit(-1)
 
 imagefolder = sys.argv[1]
@@ -22,7 +22,7 @@ if not(os.path.exists(imagefolder)):
     
 files = []
 print('glob: {}'.format(imagefolder))
-for fname in glob.glob(imagefolder+"/*.png", recursive=False):
+for fname in glob.glob(imagefolder+"/*.jpg", recursive=False):
     #print("loading: {}".format(fname))
     if os.path.isfile(fname) and os.path.getsize(fname) == 0:
         files.append(fname)
@@ -40,5 +40,4 @@ for fname in files:
     image = pipe(prompt).images[0]
 
     # save image
-    image.save(imagefolder+"/"+fname+".png")
-
+    image.save(imagefolder+"/"+fname+".jpg")

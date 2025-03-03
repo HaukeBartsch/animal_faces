@@ -18,3 +18,8 @@ Create the docker container and provide the name of a project. Generates a png a
 conda activate diffuser
 ```
 
+# Build
+
+```
+docker build --no-cache --build-arg conda_env="diffusers" -t animal_faces -f Dockerfile .
+```

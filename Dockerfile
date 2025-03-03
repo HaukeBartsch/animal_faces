@@ -16,8 +16,8 @@ RUN apt-get update -qq && apt-get install -y imagemagick \
     && rm -rf /var/lib/apt/lists/*
 
 # Create the environment:
-#COPY .ror/virt/requirements.yml .
-#RUN conda env create -f requirements.yml
+COPY requirements.yml .
+RUN conda env create -f requirements.yml
 
 # Set value to the name of your conda environment in requirements.yml.
 # Optional: provide it to docker build as a variable
@@ -27,12 +27,12 @@ ARG conda_env
 ENV DEFAULT_CONDA_ENV=$conda_env
 
 LABEL "com.ror.vendor"="MMIV.no" \
-    version="1.1" \
+    version="0.1" \
     com.ror.conda.env.name="${DEFAULT_CONDA_ENV}" \
-    description="Example docker container for workflow AI on the research information system at MMIV.no."
+    description="Docker container for avatar AI on the research information system at MMIV.no."
 
 # Make RUN commands use the new environment:
-RUN echo "conda activate ${conda_env}" >> ~/.bashr
+RUN echo "conda activate ${conda_env}" >> ~/.bashrc
 SHELL ["/bin/bash", "--login", "-c"]
 
 # Demonstrate the environment is activated and download weights from online:
